@@ -1,0 +1,753 @@
+﻿@using FormClearance
+@using FormClearance.Models
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpAcc
+@using Microsoft.AspNetCore.Identity
+@addTagHelper Identity.TagHelpers.*, Identity
+@addTagHelper *, FormClearance
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Clearance Form</title>
+    <!-- add icon link -->
+    <link rel="icon" href="~/Images/FUNAAB_Logo.jpg"
+          type="image/x-icon">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    @*<link rel="stylesheet" href="~/responsive/lib/bootstrap/dist/css/bootstrap.min.css">*@
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    @*<link rel="stylesheet" href="~/ext/bower_components/font-awesome/css/font-awesome.min.css">*@
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.0/css/ionicons.css" />
+    @*<link rel="stylesheet" href="~/ext/bower_components/Ionicons/css/ionicons.min.css">*@
+    <!-- Theme style -->
+    @*<link rel="stylesheet" href="~/ext/dist/css/AdminLTE.min.css">*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/css/AdminLTE.min.css" integrity="sha512-OiXJ/7EA2gA4lm5An748QWQU7crAaZchcs5JlDQI13p3GriJrpgB8nN1y2YKixAKFCRfGD7jfFpia2Ju7vkUhQ==" crossorigin="anonymous" />
+
+    @*<link rel="stylesheet" href="~/ext/dist/css/skins/skin-blue.min.css">*@
+    <style>
+        .skin-blue .main-header .navbar {
+            background-color: #3c8dbc
+        }
+
+            .skin-blue .main-header .navbar .nav > li > a {
+                color: #fff
+            }
+
+                .skin-blue .main-header .navbar .nav > li > a:hover, .skin-blue .main-header .navbar .nav > li > a:active, .skin-blue .main-header .navbar .nav > li > a:focus, .skin-blue .main-header .navbar .nav .open > a, .skin-blue .main-header .navbar .nav .open > a:hover, .skin-blue .main-header .navbar .nav .open > a:focus, .skin-blue .main-header .navbar .nav > .active > a {
+                    background: rgba(0,0,0,0.1);
+                    color: #f6f6f6
+                }
+
+            .skin-blue .main-header .navbar .sidebar-toggle {
+                color: #fff
+            }
+
+                .skin-blue .main-header .navbar .sidebar-toggle:hover {
+                    color: #f6f6f6;
+                    background: rgba(0,0,0,0.1)
+                }
+
+            .skin-blue .main-header .navbar .sidebar-toggle {
+                color: #fff
+            }
+
+                .skin-blue .main-header .navbar .sidebar-toggle:hover {
+                    background-color: #367fa9
+                }
+
+        @@media (max-width:767px) {
+            .skin-blue .main-header .navbar .dropdown-menu li.divider {
+                background-color: rgba(255,255,255,0.1)
+            }
+
+            .skin-blue .main-header .navbar .dropdown-menu li a {
+                color: #fff
+            }
+
+                .skin-blue .main-header .navbar .dropdown-menu li a:hover {
+                    background: #367fa9
+                }
+        }
+
+        .skin-blue .main-header .logo {
+            background-color: #367fa9;
+            color: #fff;
+            border-bottom: 0 solid transparent
+        }
+
+            .skin-blue .main-header .logo:hover {
+                background-color: #357ca5
+            }
+
+        .skin-blue .main-header li.user-header {
+            background-color: #3c8dbc
+        }
+
+        .skin-blue .content-header {
+            background: transparent
+        }
+
+        .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
+            background-color: #222d32
+        }
+
+        .skin-blue .user-panel > .info, .skin-blue .user-panel > .info > a {
+            color: #fff
+        }
+
+        .skin-blue .sidebar-menu > li.header {
+            color: #4b646f;
+            background: #1a2226
+        }
+
+        .skin-blue .sidebar-menu > li > a {
+            border-left: 3px solid transparent
+        }
+
+        .skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a, .skin-blue .sidebar-menu > li.menu-open > a {
+            color: #fff;
+            background: #1e282c
+        }
+
+        .skin-blue .sidebar-menu > li.active > a {
+            border-left-color: #3c8dbc
+        }
+
+        .skin-blue .sidebar-menu > li > .treeview-menu {
+            margin: 0 1px;
+            background: #2c3b41
+        }
+
+        .skin-blue .sidebar a {
+            color: #b8c7ce
+        }
+
+            .skin-blue .sidebar a:hover {
+                text-decoration: none
+            }
+
+        .skin-blue .sidebar-menu .treeview-menu > li > a {
+            color: #8aa4af
+        }
+
+            .skin-blue .sidebar-menu .treeview-menu > li.active > a, .skin-blue .sidebar-menu .treeview-menu > li > a:hover {
+                color: #fff
+            }
+
+        .skin-blue .sidebar-form {
+            border-radius: 3px;
+            border: 1px solid #374850;
+            margin: 10px 10px
+        }
+
+            .skin-blue .sidebar-form input[type="text"], .skin-blue .sidebar-form .btn {
+                box-shadow: none;
+                background-color: #374850;
+                border: 1px solid transparent;
+                height: 35px
+            }
+
+            .skin-blue .sidebar-form input[type="text"] {
+                color: #666;
+                border-top-left-radius: 2px;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 2px
+            }
+
+                .skin-blue .sidebar-form input[type="text"]:focus, .skin-blue .sidebar-form input[type="text"]:focus + .input-group-btn .btn {
+                    background-color: #fff;
+                    color: #666
+                }
+
+                    .skin-blue .sidebar-form input[type="text"]:focus + .input-group-btn .btn {
+                        border-left-color: #fff
+                    }
+
+            .skin-blue .sidebar-form .btn {
+                color: #999;
+                border-top-left-radius: 0;
+                border-top-right-radius: 2px;
+                border-bottom-right-radius: 2px;
+                border-bottom-left-radius: 0
+            }
+
+        .skin-blue.layout-top-nav .main-header > .logo {
+            background-color: #3c8dbc;
+            color: #fff;
+            border-bottom: 0 solid transparent
+        }
+
+            .skin-blue.layout-top-nav .main-header > .logo:hover {
+                background-color: #3b8ab8
+            }
+    </style>
+    <style>
+        @@media (max-width: 715px) {
+        }
+
+        @@media (max-width: 600px) {
+        }
+
+        @@media (max-width: 1024px) {
+            .btnFlex {
+                display: inline-flex;
+                position: relative;
+                width: 200px;
+                left: -2em;
+            }
+
+            .btnFlex2 {
+                display: inline-block;
+            }
+        }
+
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) {
+            .btnFlex {
+                display: inline-flex;
+                position: relative;
+                left: -3em;
+                width: 300px;
+            }
+
+            .btnFlex2 {
+                display: inline-block;
+            }
+        }
+        /* ----------- iPad Pro ----------- */
+        /* Portrait and Landscape */
+        @@media only screen and (min-width: 1024px) and (max-height: 1366px) and (-webkit-min-device-pixel-ratio: 1.5) {
+        }
+
+        @@media only screen and (device-width : 375px) and (device-height : 812px) and (-webkit-device-pixel-ratio : 3) and (orientation: portrait) {
+        }
+
+        @@media only screen and (device-width : 375px) and (device-height : 667px) and (-webkit-device-pixel-ratio : 2) {
+        }
+
+        @@media only screen and (device-width : 414px) and (device-height : 736px) and (-webkit-device-pixel-ratio : 3) {
+        }
+        /*iPhone < 5:*/
+        @@media screen and (device-aspect-ratio: 2/3) {
+        }
+
+        @@media screen and (device-width: 412px) and (device-height: 823px) and (-webkit-device-pixel-ratio: 3.5) and (orientation: portrait) {
+        }
+        /*iPhone 5:*/
+        @@media screen and (device-aspect-ratio: 40/71) {
+        }
+        /* Portrait */
+        @@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1.5) {
+        }
+
+        /* Landscape */
+        @@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1.5) {
+        }
+    </style>
+    <style>
+
+        /* ----------- Windows Phone ----------- */
+
+        /* Portrait and Landscape */
+        @@media screen and (device-width: 480px) and (device-height: 800px) {
+        }
+
+        /* Portrait */
+        @@media screen and (device-width: 480px) and (device-height: 800px) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media screen and (device-width: 480px) and (device-height: 800px) and (orientation: landscape) {
+        }
+
+
+
+        /* ----------- HTC One ----------- */
+
+        /* Portrait and Landscape */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) {
+        }
+
+        /* Portrait */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape) {
+        }
+
+
+
+
+        /* ----------- Google Pixel ----------- */
+
+        /* Portrait and Landscape */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) {
+        }
+
+        /* Portrait */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape) {
+        }
+
+        /* ----------- Google Pixel XL ----------- */
+
+        /* Portrait and Landscape */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 4) {
+        }
+
+        /* Portrait */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 4) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 4) and (orientation: landscape) {
+        }
+
+
+
+
+        /* ----------- Galaxy S3 ----------- */
+
+        /* Portrait and Landscape */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 2) {
+        }
+
+        /* Portrait */
+        @@media screen and (device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media screen and (device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape) {
+        }
+
+        /* ----------- Galaxy S4, S5 and Note 3 ----------- */
+
+        /* Portrait and Landscape */
+        @@media screen and (device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) {
+        }
+
+        /* Portrait */
+        @@media screen and (device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media screen and (device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape) {
+        }
+
+        /* ----------- Galaxy S6 ----------- */
+
+        /* Portrait and Landscape */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 4) {
+        }
+
+        /*Galaxy S8, S8+, S9, S9+, S10, S10+*/
+        @@media only screen and (min-device-width: 360px) and (max-device-width: 740px) and (-webkit-min-device-pixel-ratio: 4) {
+            /* CSS Rules Here */
+        }
+
+        /* Portrait */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 4) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 4) and (orientation: landscape) {
+        }
+
+
+
+
+        /* ----------- iPhone 4 and 4S ----------- */
+
+        /* Portrait and Landscape */
+        @@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+        }
+
+        /* Portrait */
+        @@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+        }
+
+        /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+        /* Portrait and Landscape */
+        @@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+        }
+
+        /* Portrait */
+        @@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+        }
+
+        /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+
+        /* Portrait and Landscape */
+        @@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+        }
+
+
+        /* Portrait */
+        @@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+        }
+
+        /* All Smartphones in portrait and landscape ----------- */
+        @@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+            /* YOUR STYLE GOES HERE */
+        }
+
+        /* All Smartphones in landscape ----------- */
+        @@media only screen and (min-width : 321px) {
+            /* YOUR STYLE GOES HERE */
+        }
+
+        /* All Smartphones in portrait ----------- */
+        @@media only screen and (max-width : 479px) {
+            /* YOUR STYLE GOES HERE */
+        }
+
+        /* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+        /* Portrait and Landscape */
+        @@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+        }
+
+        /* Portrait */
+        @@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+        }
+
+        /*iPhone 6, 6S, 7, 8*/
+        @@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+            /* CSS Rules Here */
+        }
+        /* ----------- iPhone X ----------- */
+
+        /* Portrait and Landscape */
+        @@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) {
+        }
+
+        /* Portrait */
+        @@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+        }
+
+        /* Landscape */
+        @@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+        }
+
+
+        /*iPad 10.2″ (7th gen)*/
+
+        @@media only screen and (min-device-width: 810px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 2) {
+            /* CSS Rules Here */
+        }
+
+        /* iPad Pro 11″ (3rd Gen)*/
+        @@media only screen and (min-device-width: 834px) and (max-device-width: 1194px) and (-webkit-min-device-pixel-ratio: 2) {
+            /* CSS Rules Here */
+        }
+        /*iPad Air 10.5″ (3rd Gen), Pro 10.5″ (2nd Gen)*/
+        @@media only screen and (min-device-width: 834px) and (max-device-width: 1112px) and (-webkit-min-device-pixel-ratio: 2) {
+            /* CSS Rules Here */
+        }
+        /*iPad Pro 12.9″ (1st Gen), Pro 12.9″ (2nd Gen), Pro 12.9″ (3rd Gen)*/
+        @@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2) {
+            /* CSS Rules Here */
+        }
+        /*iPad 3, 4, 5, 6, Mini 2, Mini 3, Mini 4, Mini 7.9″ (5th Gen), Air, Air 2, Pro 9.7″ (1st Gen)*/
+        @@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+            /* CSS Rules Here */
+        }
+        /*iPad 1, 2, Mini*/
+        @@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+            /* CSS Rules Here */
+        }
+    </style>
+    @*<link href="~/Utils/DataTables/Buttons-1.6.1/css/buttons.bootstrap4.min.css" rel="stylesheet" />*@
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.bootstrap4.css" />
+
+    <!-- jQuery 3 -->
+    @*<script src="~/ext/bower_components/jquery/dist/jquery.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />*@
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" />
+    @*<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'>*@
+
+
+
+
+    @*<script type="text/javascript">
+            function preventBack() { window.history.forward(); }
+            setTimeout("preventBack()", 0);
+            window.onunload = function () { null };
+        </script>*@
+
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <!-- Main Header -->
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="#" class="logo" style="background-color:white;">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><img src="~/Images/FUNAAB_Logo.jpg" sizes="50px" style="width:50px" /></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="text-sm"><img src="~/Images/FUNAAB_Logo.jpg" sizes="50px" style="width:50px" /><b></b></span>
+            </a>
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation" style="background-color:white; color: black;">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" style="color: #00008F;" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                @if (httpAcc.HttpContext.Session.IsAvailable)
+                {
+                    //_user user = _sme.Profile();
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <!-- User Account Menu -->
+                            <li class="dropdown user user-menu">
+                                <!-- Menu Toggle Button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <!-- The user image in the navbar-->
+                                    <img src="~/ext/dist/img/avatar5.png" class="user-image" alt="User Image">
+                                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                    <span class="hidden-xs" style="color: black;font-size: medium;">Hello @User.Identity.Name!</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-default btn-flat">Account Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" class="btn btn-default btn-flat logoutModal" >Sign out</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                }
+
+
+            </nav>
+        </header>
+
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar" style="background-color: #008F6D ">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        @*<img src="~/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">*@
+                    </div>
+                    <div class="pull-left info">
+                        @*<p>Shehryar Khan</p>*@
+                        <!-- Status -->
+                        @*<a href="#"><i class="fa fa-circle text-success"></i> Online</a>*@
+                    </div>
+                </div>
+                <!-- search form (Optional) -->
+                @*<form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>*@
+                <!-- /.search form -->
+                <!-- Sidebar Menu -->
+                <partial name="_MainMenuAD" />
+                <!-- /.sidebar-menu -->
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            @RenderBody()
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- Default to the left -->
+            <strong>Copyright © 2020 &nbsp;<a href="https://unaab.edu.ng/">FUNAAB</a>.</strong> All Rights Reserved.
+        </footer>
+    </div>
+    @RenderSection("Scripts", required: false)
+    <!-- ./wrapper -->
+    <!-- REQUIRED JS SCRIPTS -->
+    <!-- Bootstrap 3.3.7 -->
+    @*<script src="~/ext/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>*@
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- AdminLTE App -->
+    @*<script src="~/ext/dist/js/adminlte.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/js/adminlte.min.js" integrity="sha512-uqwlRpSTS8U/0ZyL31cc7W0WiYCiZwalKomswbH2sYvFxqzHXXU7DauSRyPDQiluddYkNbLO4W8GBKFfrmTCuQ==" crossorigin="anonymous"></script>
+
+    <link type="text/javascript" href="https://code.jquery.com/jquery-3.3.1.js" />
+    <link type="text/javascript" href="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" />
+    <link type="text/javascript" href="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js" />
+    <link type="text/javascript" href="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js" />
+    <link type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" />
+    <link type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" />
+    <link type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" />
+    <link type="text/javascript" href="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" />
+    <link type="text/javascript" href="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" />
+
+
+    @*<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+    @*<script src="~/Landing/js/CorporateU.js"></script>*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script type="text/javascript">
+        function activityWatcher() {
+
+            //The number of seconds that have passed
+            //since the user was active.
+            var secondsSinceLastActivity = 0;
+
+            //Five minutes. 60 x 5 = 300 seconds.
+            var maxInactivity = (60 * 10000);
+
+            //Setup the setInterval method to run
+            //every second. 1000 milliseconds = 1 second.
+            setInterval(function () {
+                secondsSinceLastActivity++;
+                //  console.log(secondsSinceLastActivity + ' seconds since the user was last active');
+                //if the user has been inactive or idle for longer
+                //then the seconds specified in maxInactivity
+                if (secondsSinceLastActivity > maxInactivity) {
+                    console.log('User has been inactive for more than ' + maxInactivity + ' seconds');
+                    //Redirect them to your logout page.
+                    location.href = '/Account/PartnerLogout';
+                }
+            }, 1000);
+
+            //The function that will be called whenever a user is active
+            function activity() {
+                //reset the secondsSinceLastActivity variable
+                //back to 0
+                secondsSinceLastActivity = 0;
+            }
+
+            //An array of DOM events that should be interpreted as
+            //user activity.
+            var activityEvents = [
+                'mousedown', 'mousemove', 'keydown',
+                'scroll', 'touchstart'
+            ];
+
+            //add these events to the document.
+            //register the activity function as the listener parameter.
+            activityEvents.forEach(function (eventName) {
+                document.addEventListener(eventName, activity, true);
+            });
+
+
+        }
+
+        activityWatcher();
+        $(function () {
+            $(".logoutModal").click(function (e) {
+                //whenever our button is clicked
+
+                e.preventDefault();
+                // stop the default behavior(navigation)
+                //var _form = $(this).closest("form");
+                //get a reference to the container form
+
+                swal({
+                    title: 'Are you sure you want to logout?',
+                    //text: "Were you referred by a SALES AGENT or BROKER?",
+                    //closeOnClickOutside: false,
+                    icon: 'info',
+                    buttons: {
+                        cancel: 'NO',
+                        confirm: 'Yes'
+                    }
+                }).then(responce => {
+                    if (responce) {
+                        var link = "https://localhost:44330/Broker/Logout";
+                        //window.location.href = "/sme/SMEasy_Pro";
+                        $.ajax({
+                            url: link,
+                            type: 'get',
+                            contentType: 'application/json; charset=utf-8'
+                        });
+                        window.location.href = "/Identity/Account/LogOut";
+                    }
+                })
+            });
+        })
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/additional-methods.js"></script>*@
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.72/jsrender.min.js"></script>
+
+
+</body>
+
+
+
+
+
+
+
+</html>

@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_AdLayout.cshtml";
+}
+
+@model RoleEdit
+
+<div class="container-fluid" id="archivesId">
+    <div class="col-md-6 col-md-offset-5 " style="border:none; padding:0px">
+        <div align="left" sstyle="text-align:left">
+            <p class="" style="margin-top: 30px; font-weight: bold; text-align:left;font-size:24px">
+
+            </p>
+
+        </div>
+    </div>
+    <br />
+    <div class="col-md-12 " style="background-color: #fff; border: none;">
+        <br /><h3 class="text-center"><b>Update Role</b></h3>
+        <a asp-action="Index" class="btn btn-lg" style="background-color:#008F6D; color:white">Back</a>
+        <form method="post">
+            <input type="hidden" name="roleName" value="@Model.Role.Name" />
+            <input type="hidden" name="roleId" value="@Model.Role.Id" />
+            <h3 class="p-1 text-white" style="color:#008F6D"><b>Add To @Model.Role.Name</b></h3>
+            <table class="table table-bordered table-sm">
+                @if (Model.NonMembers.Count() == 0)
+                {
+                    <tr><td colspan="2"><b>All Users Are Members</b></td></tr>
+                }
+                else
+                {
+                    @foreach (IdentityUser user in Model.NonMembers)
+                    {
+                        <tr>
+                            <td><b>@user.UserName</b></td>
+                            <td>
+                                <input type="checkbox" name="AddIds" value="@user.Id">
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+
+            <h3 class="p-1 text-white" style="color:#008F6D"><b>Remove From @Model.Role.Name</b></h3>
+            <table class="table table-bordered table-sm">
+                @if (Model.Members.Count() == 0)
+                {
+                    <tr><td colspan="2"><b>No Users Are Members</b></td></tr>
+                }
+                else
+                {
+                    @foreach (IdentityUser user in Model.Members)
+                    {
+                        <tr>
+                            <td><b>@user.UserName</b></td>
+                            <td>
+                                <input type="checkbox" name="DeleteIds" value="@user.Id">
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+            <button type="submit" class="btn btn-lg text-center" style="background-color:#008F6D; margin-left:22em; width:124px; color:white">Save</button>
+        </form>
+
+
+        <br />
+    </div>
+
+    <div class="clear"></div>
+    <br />
+</div>
+@*<h1 class="bg-info text-white">Update Role</h1>
+<a asp-action="Index" class="btn btn-secondary">Back</a>
+<div asp-validation-summary="All" class="text-danger"></div>*@
+
+
+

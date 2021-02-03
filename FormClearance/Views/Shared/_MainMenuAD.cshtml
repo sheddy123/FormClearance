@@ -1,0 +1,90 @@
+﻿<style>
+    .skin-blue .sidebar a {
+        color: white !important;
+    }
+</style>
+@if (User.IsInRole("Manager"))
+{
+    <ul class="sidebar-menu" data-widget="tree" style="background-color:#008F6D">
+        @*<li class="header">Menus</li>*@
+        <!-- Optionally, you can add icons to the links -->
+        <li>
+            <a asp-controller="Home" asp-action="FormClearance" style="color:white">
+                <i class="fa fa-th-large"></i> <span><b>REQUESTS</b></span>
+            </a>
+        </li>
+
+        <li class="">
+            <a asp-controller="Role" style="color:white" asp-action="Index">
+                <i class="fa fa-exchange"></i> <span><b>ROLES</b></span>
+            </a>
+        </li>
+        <li class="">
+            <a asp-controller="Home" asp-action="AdminResponse" style="color:white">
+                <i class="fa fa-exchange"></i> <span><b>ADMIN RESPONSE</b></span>
+            </a>
+        </li>
+        <li class="">
+            <a asp-controller="Home" style="color:white" asp-action="Archives">
+                <i class="fa fa-archive"></i> <span><b>ARCHIVES</b></span>
+            </a>
+        </li>
+        <li class="">
+            <a class="logoutModal" style="color:white" asp-action="Logout" asp-controller="Account">
+                <i class="fa fa-sign-out"></i> <span><b>LOGOUT</b></span>
+            </a>
+        </li>
+        @*<li class="active" style="background-color:#00008F"><a href="#"><i class="fa fa-link"></i> <span>ARCHIVES</span></a></li>*@
+    </ul>
+}
+@if (User.IsInRole("Network Unit"))
+{
+    <ul class="sidebar-menu" data-widget="tree" style="background-color:#008F6D">
+        @*<li class="header">Menus</li>*@
+        <!-- Optionally, you can add icons to the links -->
+        <li>
+            <a asp-controller="Home" asp-action="FormClearance" style="color:white">
+                <i class="fa fa-th-large"></i> <span><b>REQUESTS</b></span>
+            </a>
+        </li>
+        <li class="">
+            <a asp-controller="Home" asp-action="AdminResponse" style="color:white" >
+                <i class="fa fa-exchange"></i> <span><b>ADMIN RESPONSE</b></span>
+            </a>
+        </li>
+        <li class="">
+            <a asp-controller="Home" style="color:white" asp-action="Archives">
+                <i class="fa fa-archive"></i> <span><b>ARCHIVES</b></span>
+            </a>
+        </li>
+        <li class="">
+            <a class="logoutModal" style="color:white" asp-action="Logout" asp-controller="Account">
+                <i class="fa fa-sign-out"></i> <span><b>LOGOUT</b></span>
+            </a>
+        </li>
+        @*<li class="active" style="background-color:#00008F"><a href="#"><i class="fa fa-link"></i> <span>ARCHIVES</span></a></li>*@
+    </ul>
+}
+@if (User.IsInRole("Admin"))
+{
+    <ul class="sidebar-menu" data-widget="tree" style="background-color:#008F6D">
+        @*<li class="header">Menus</li>*@
+        <!-- Optionally, you can add icons to the links -->
+        <li>
+            <a asp-controller="Home" asp-action="FormClearance" style="color:white">
+                <i class="fa fa-th-large"></i> <span><b>REQUESTS</b></span>
+            </a>
+        </li>
+        <li class="">
+            <a asp-controller="Home" style="color:white" asp-action="Archives">
+                <i class="fa fa-archive"></i> <span><b>ARCHIVES</b></span>
+            </a>
+        </li>
+        <li class="">
+            <a class="logoutModal" style="color:white" asp-action="PartnerLogout" asp-controller="Account">
+                <i class="fa fa-sign-out"></i> <span><b>LOGOUT</b></span>
+            </a>
+        </li>
+        @*<li class="active" style="background-color:#00008F"><a href="#"><i class="fa fa-link"></i> <span>ARCHIVES</span></a></li>*@
+    </ul>
+}

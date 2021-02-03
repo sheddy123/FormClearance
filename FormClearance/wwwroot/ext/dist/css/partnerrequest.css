@@ -1,0 +1,33 @@
+﻿html {
+    background-color: #00008F;
+}
+
+body {
+    background-color: #00008F;
+}
+.formdiv
+{
+    background-color:white;
+}
+.mainform
+{
+    background-color:white;
+    height:150px;
+    border-radius:4px;
+}
+.cont {
+    background-color: #00008F;
+}
+.partner_buttons {
+    background-color: #F07662;
+    color:white;
+    width:80%;
+    border-radius:3px;
+}
+.form-success
+{
+    background-color:white;
+}
+.btndiv {
+    color: white;
+}

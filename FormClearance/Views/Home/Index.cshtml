@@ -1,0 +1,123 @@
+﻿@model FormClearance
+<style>
+    img {
+        padding: 5px;
+        width: 150px;
+    }
+
+    .center {
+        margin: auto;
+        width: 60%;
+        padding: 10px;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        white-space: nowrap;
+        line-height: 60px; /* Vertically center the text there */
+    }
+</style>
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="center">
+            <p style="float: left;"><img src="~/Images/FUNAAB_Logo.jpg" style="vertical-align: middle;" alt="Paris"></p><span style="font-size: 28px; font-weight: bold; color: darkgreen;">Federal University of Agriculture,</span>
+            <br><span style="font-size: 28px; margin-left: -4em; font-weight: bold; color: darkgreen;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Abeokuta, (FUNAAB) Nigeria</span>
+        </div>
+        <br><br>
+        <div class="text-center" style="background-color: darkolivegreen;">
+            <h3 style="color: floralwhite;">ICT RESOURCE CENTER</h3>
+            <h3 style="color: floralwhite;">INTERNET COMPLIANT/FAULT CLEARANCE FORM</h3>
+        </div>
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success text-center" role="alert">
+                <span><b>Request has been submitted successfully </b></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        <p><a class="btn btn-primary" href="#" onclick="exportmasterfile();">DOWNLOAD FILE</a>.</p>
+        <form method="post" asp-action="FormDetails" asp-controller="Home">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="StaffId">I.D REF.(STAFF & STD.) </label>
+                    <input type="text" name="StaffId" style="background:#fff; height:50px; border-radius:0px" class="form-control required" id="StaffId" placeholder="Staff Id" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="Name">NAME</label>
+                    <input name="Name" type="text" style="background:#fff; height:50px; border-radius:0px" class="form-control required" placeholder="Name" id="Name" required="required">
+                </div>
+            </div>
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <label for="Date">DATE</label>
+                    <input type="text" asp-for="Date" name="Date" style=" height:50px; border-radius:0px" class="form-control disabled" id="DateText" value="@DateTime.Today.ToString("yyyy/MM/dd")">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="TechnicalPerson">TECHNICAL PERSON</label>
+                    <select id="txtBankNameFlex" class="form-control" style="background:#fff; height:50px; border-radius:0px" name="TechnicalPerson" required>
+                        <option value="Network Unit">Network Unit</option>
+                    </select>
+                    @*<textarea class="form-control" name="TechnicalPerson" id="TechnicalPerson" rows="3"></textarea>*@
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="CollegeDept">COLLEGE/DEPT.</label>
+                <input type="text" name="CollegeDept" style="background:#fff; height:50px; border-radius:0px" class="form-control required" id="CollegeDept" placeholder="College/Department" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="ProblemDescription">PROBLEM DESCRIPTION</label>
+                    <textarea class="form-control required" style="background:#fff; height:150px; border-radius:0px" name="ProblemDescription" id="ProblemDescription" rows="3" required></textarea>
+                </div>
+                @*<div class="form-group col-md-6">
+                        <label for="Recommendation">RECOMMENDATION</label>
+                        <textarea class="form-control" name="Recommendation" id="Recommendation" rows="3"></textarea>
+                    </div>*@
+
+            </div>
+
+            <div class="form-group">
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary float-lg-right">Submit Request</button>
+        </form>
+        <br />
+    </main>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+@*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/additional-methods.js"></script>*@
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.72/jsrender.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+        //document.write(today);
+        document.getElementById("DateText").disabled = true;
+        document.getElementById("DateText").innerHTML = today;
+    });
+
+    function exportmasterfile() {
+        var url = '../Images/FAULT CLEARANCE FORM.doc';
+        window.open(url, 'Download');
+    }
+</script>

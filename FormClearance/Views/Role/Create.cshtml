@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdLayout.cshtml";
+}
+
+@model string
+
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+    .clear {
+        clear: both;
+    }
+
+    .btnChangePassword {
+        width: 180px;
+    }
+
+    .inputFlat {
+        border-radius: 0px;
+    }
+</style>
+
+<section class="content container-fluid">
+
+    <div>
+
+        <div class="col-md-6 col-md-offset-5 " style="border:none; padding:0px">
+            <div align="left" sstyle="text-align:left">
+                <p class="" style="margin-top: 30px; font-weight: normal; text-align:left;font-size:24px">
+                    Create a Role
+                </p>
+
+            </div>
+        </div>
+
+        <div class="col-md-6 col-md-offset-3 " style="background-color: #fff; border:none ">
+            @*<input type="hidden" asp-for="Email" />*@
+            <div class="" style="margin: 3%">
+
+                <p class="alert alert-danger" id="notificationMail" style="text-align:center; display:none"></p>
+                <form asp-action="Create" method="post">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="txtCurrPasswd">Role Name</label>
+                            <input name="name"  type="text" class="form-control  inputFlat" placeholder="Enter Role Name" required>
+                        </div>
+                        
+                        <div class="form-group" align="center" style="margin-bottom:0px">
+                            <a asp-action="Index" class="btn btn-outline-primary" style="font-weight:bold;color:white;border-color:transparent; background-color:#008F6D;">Back</a>
+                            <button type="submit" class="btn btn-outline-primary btnChangePassword" style="font-weight:bold;color:white;border-color:transparent; background-color:#008F6D;">CREATE ROLE</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        
+
+    </div>
+
+</section>

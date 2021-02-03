@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewData["Title"] = "Requests";
+    Layout = "~/Views/Shared/_AdLayout.cshtml";
+}
+<style>
+    .textFont {
+        color: black;
+        font-size: 16px;
+    }
+
+    td {
+        color: black;
+    }
+</style>
+<div class="container-fluid" id="archivesId">
+    <div class="col-md-6 col-md-offset-5 " style="border:none; padding:0px">
+        <div align="left" sstyle="text-align:left">
+            <p class="" style="margin-top: 30px; font-weight: bold; text-align:left;font-size:24px">
+
+            </p>
+
+        </div>
+    </div>
+
+    <div class="col-md-12 " style="background-color: #fff; border: none;">
+        <h3 style="margin-top:2em"><b>&nbsp;&nbsp;&nbsp;Form Clearance</b></h3>
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success text-center" role="alert">
+                <span><b>Request has been updated successfully </b></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        <br />
+    </div>
+    
+    <div class="col-md-12 " style="background-color: #fff; border: none;">
+        <div class="table-responsive">
+            <table id="DT_Table" class="table " style="background-color:#fff">
+                <thead>
+                    <tr>
+                        <th style="color:#008F6D" class="textFont">Name</th>
+                        <th style="color: #008F6D " class="textFont">College/Department</th>
+                        <th style="color:#008F6D" class="textFont">Problem Description</th>
+                        <th style="color:#008F6D" class="textFont">Status</th>
+                        <th style="color:#008F6D" class="textFont">Technical Person</th>
+                        <th style="color:#008F6D" class="textFont">Staff Id</th>
+                        <th style="color:#008F6D" class="textFont">Recommendation</th>
+                        <th style="color: #008F6D" class="textFont">Date</th>
+                        <th style=" color: #008F6D" class="textFont">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="clear"></div>
+    <br />
+</div>
+
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>*@
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var userType = ('@TempData["UserType"]');
+        var table = $('#DT_Table').DataTable({
+            "processing": false,
+            "ajax": {
+                "url": "/Api/FormClearance/?userType=" + userType,
+                "type": "GET",
+                "datatype": "json",
+                "dataSrc": ""
+            },
+            "columnDefs":
+                [{
+                    "targets": [0],
+                    "visible": true,
+                    "searchable": true
+                }],
+            "columns": [
+                { "data": "name" },
+                { "data": "collegeDept" },
+                { "data": "problemDescription" },
+                {
+                    "data": "status",
+                    createdCell: function (td, cellData, rowData, row, col) {
+                        if (cellData == 'DECLINED') {
+                            $(td).css('color', 'red');
+                            $(td).css('font-weight', 'bold');
+                        } else {
+                            $(td).css('color', 'darkblue');
+                            $(td).css('font-weight', 'bold');
+                        }
+                    }
+                },
+                { "data": "technicalPerson" },
+                { "data": "staffId" },
+                {"data": "recommendation"},
+                { "data": "date" },
+                {
+                    data: "id",
+                    "render": function (data, type, full, meta) {
+                        //console.log(data);
+                        return `<div class="text-center">
+                                    <a class="btn btn-md btn-primary" href="/Home/Process/${data}" style="color: white;background-color:#008F6D;"><b>EDIT</b></a>
+                               `;
+                    }
+                }
+            ]
+        });
+
+    });
+</script>

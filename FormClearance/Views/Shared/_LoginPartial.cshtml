@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+    <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav" style="display:inline !important">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <li class="dropdown user user-menu">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+                </li>
+                <li class="dropdown user user-menu">
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                    </form>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                </li>
+            }
+        </ul>
+
+        @*<ul class="nav navbar-nav">
+            @if (SignInManager.IsSignedIn(User))
+            {*@
+                <!-- User Account Menu -->
+                @*<li class="dropdown user user-menu">*@
+                    <!-- Menu Toggle Button -->
+                    @*<a href="#" class="dropdown-toggle" data-toggle="dropdown">*@
+                        <!-- The user image in the navbar-->
+                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                        @*<span class="hidden-xs" style="color: black;font-size: medium;">Hello @User.Identity.Name!</span>
+                    </a>
+                    <ul class="dropdown-menu">*@
+
+                        <!-- Menu Footer-->
+                        @*<li class="user-footer">
+                            <div class="pull-left">
+                                <a class="btn btn-default btn-flat" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a class="btn btn-default btn-flat logoutModal" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown user user-menu">
+                    <a  asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">*@
+                        <!-- The user image in the navbar-->
+                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                        @*<span class="hidden-xs" style="color: black;font-size: medium;">Sign out</span>
+                    </a>
+                </li>
+                    }
+                    else
+                    {*@
+                    <!-- User Account Menu -->
+                    @*<li class="dropdown user user-menu">*@
+                    <!-- Menu Toggle Button -->
+                    @*<a class="dropdown-toggle" data-toggle="dropdown" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                </li>*@
+                @*<li class="dropdown user user-menu">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                </li>
+                <li class="dropdown user user-menu">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                </li>
+                }
+            </ul>*@
+    </div>

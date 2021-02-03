@@ -1,0 +1,268 @@
+﻿@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <link href="~/datatable/css/toastr.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    @*<link href="~/public/stylesheet.css" rel="stylesheet" />*@
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+
+    @*<link href="~/public/custom.css" rel="stylesheet" />*@
+
+    @*<script type="text/javascript">
+            function preventBack() { window.history.forward(); }
+            setTimeout("preventBack()", 0);
+            window.onunload = function () { null };
+        </script>*@
+</head>
+
+<body style="background:#fff">
+    <div class="home" style="max-width:100%; overflow-x:hidden">
+        <section class="section-6" style="background-color:#fff;font-family: Source Sans Pro;">
+            <div class="">
+                <div class="row">
+                    <div class="col-6 backdrop" style="background-image: url('../../Images/ictrec4.jpg');  height:700px; " id="loginBackground">
+                        <div>
+                            @**@
+                            <div class="">
+                                <section class="section-1 mb-0 pb-0" style="background:none">
+                                    <nav class="navbar navbar-expand-lg mb-0 mt-3 mb-0 " style="margin-top:0px !important; ">
+
+                                        @*<img style="height:80px" class="logo mt-4 mb-4 pb-0" src="~/Images/FUNAAB_Logo.jpg" />*@
+                                    </nav>
+                                </section>
+                                <section class="section-2">
+
+                                    <div class="container">
+                                        <div class="jumbotron" style="background:none">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div id="content">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" id="loginFields">
+                        <div class="">
+                            <div class="layer">
+                                <br />
+                                <section class="section-2" style="background:#fff">
+
+                                    <div class="container" style="background:#fff">
+                                        <div class="jumbotron" style="background:none; padding:1rem 3rem">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div id="content">
+                                                        <br /><br /><br />
+                                                        <div class="main-title" style="text-align:left; padding-left: 7%; font-size:40px; color:#333333; font-weight:bolder;font-family:'Publico Headline'; margin-bottom:20px">Create New Account</div>
+                                                        <div class="inner-form">
+                                                            <div class="form-group" align="center">
+                                                                <div id="">
+                                                                    <div class="first col-md-12">
+
+                                                                        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                                                                            <div asp-validation-summary="All" class="text-danger"></div>
+                                                                            <div class="form-group col-md-12" style="padding-bottom: 4%;">
+                                                                                <div class="label" style="padding-right: 92%;">
+                                                                                    <label asp-for="Input.Email"></label>
+                                                                                </div>
+                                                                                <input asp-for="Input.Email" type="text" id="login" class="form-control" style="border-radius:0px; height:45px; border-color:#CCCCCC" placeholder="Username">
+                                                                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+                                                                            </div>
+                                                                            <div class="form-group col-md-12">
+                                                                                <div class="label" style="padding-right: 92%;">
+                                                                                    <label asp-for="Input.Password"></label>
+                                                                                </div>
+                                                                                <input asp-for="Input.Password" type="password" id="password" class="form-control" style="border-radius:0px; height:45px; border-color:#CCCCCC" placeholder="Password ">
+                                                                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+
+                                                                            </div>
+                                                                            <div class="form-group col-md-12">
+                                                                                <div class="label" style="padding-right: 92%;">
+                                                                                    <label asp-for="Input.ConfirmPassword"></label>
+                                                                                </div>
+                                                                                <input asp-for="Input.ConfirmPassword" type="password" id="password" class="form-control" style="border-radius:0px; height:45px; border-color:#CCCCCC" placeholder="Password ">
+                                                                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+                                                                            </div>
+                                                                            <div class="form-group">
+
+                                                                                <div class="col-md-8">
+                                                                                    <button type="submit" class="btn btn-lg btn-primary" style="background-color:#008F6D; color:white; width:250px; border-radius:0px">REGISTER</button>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            @*<div class="form-group col-md-12">
+                                <input style="color:white; border-radius:0px;" type="submit" class=" fourth" value="SIGN In">
+
+                            </div>*@
+
+                                                                        </form>
+                                                                        @*<div style="font-family: 'Source Sans Pro'; font-size:12px; font-weight: 400;" id="formFooter">
+                            Don't have an account? <a class="undertext" href="#" style="font-size:12px"> <span style="font-weight:600;">REQUEST TO BE A PARTNER</span> </a>
+                        </div>*@
+                                                                        @*<div class="first form-group col-md-12" style="font-family: 'Source Sans Pro'; font-size:12px; font-weight: 400; margin-top:2rem; margin-right:50px">
+                            <div class="col-md-12">
+                                Don't have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+
+                            </div>
+                            <div class="col-md-12 passwordForgot" style="text-align:center">
+                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+
+                            </div>
+                        </div>*@
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>
+
+@*<h1>@ViewData["Title"]</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <h4>Create a new account.</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+        <div class="col-md-6 col-md-offset-2">
+            <section>
+                <h4>Use another service to register.</h4>
+                <hr />
+                @{
+                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
+                        <div>
+                            <p>
+                                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                                for details on setting up this ASP.NET application to support logging in via external services.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach (var provider in Model.ExternalLogins)
+                                    {
+                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }
+            </section>
+        </div>
+    </div>*@@*<h1></h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4></h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary"></button>
+        </form>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h4></h4>
+            <hr />
+            <div>
+                <p>
+                    <a href="https://go.microsoft.com/fwlink/?LinkID=532715"></a>
+                </p>
+            </div>
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                <div>
+                    <p>
+                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"></button>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>*@
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
